@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <title>Piarcereさんのチュートリアルやってみた</title>
+    <link rel="stylesheet" href="<%= static_path(@conn, "/css/app.css") %>">
+    <style type="text/css">
+      .navbar-brand {
+        background: url("<%= static_path(@conn, "/images/phoenix_logo.png") %>") no-repeat left center;
+        background-size: contain;
+        height: 50px;
+        width: 200px;
+      }
+    </style>
+  </head>
+  
+  <body>
+  <header>
+  <nav class="navbar navbar-inverse navbar-fixed-top">
+      <div class="navbar-header">
+        <a class="navbar-brand" href="/"></a>
+      </div>
+
+      <ul class="nav navbar-nav">
+        <li><a target="_blank" href="https://qiita.com/piacere_ex/items/6714e1440e3f25fb46a1">1回目</a></li>
+        <li><a target="_blank" href="https://qiita.com/piacere_ex/items/b7787580fce5f148242f">2回目</a></li>
+        <li><a target="_blank" href="https://qiita.com/piacere_ex/items/a7558adc6856e3577dc6">3回目</a></li>
+        <li><a target="_blank" href="https://qiita.com/piacere_ex/items/4c212615a4eb699dd109">4回目</a></li>
+        <li><a target="_blank" href="https://qiita.com/piacere_ex/items/290b76b76d5ff8e019bf">5回目</a></li>
+      </ul> 
+  </nav>
+  </header>
+  <p class="alert alert-info" role="alert"><%= get_flash(@conn, :info) %></p>
+  <p class="alert alert-danger" role="alert"><%= get_flash(@conn, :error) %></p>
+
+  <main role="main">
+    <%= render @view_module, @view_template, assigns %>
+  </main>
+
+  <script src="<%= static_path(@conn, "/js/app.js") %>"></script>
+  </body>
+</html>

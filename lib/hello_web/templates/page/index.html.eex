@@ -1,0 +1,65 @@
+
+<%
+# DBから取得したデータを受け取るとき
+# result = Db.query("select name, age from members")
+# data = result |> Db.columns_rows |> Enum.map( fn( record ) -> %{ "name" => record["name"], "age" => record["age"]} end )
+
+# API叩いて取得したデータを受け取るとき
+result = Json.get("https://qiita.com", "/api/v2/items?query=elixir" )    
+data = result 
+columns = ["id", "title", "created_at", "likes_count"]
+%>
+<script type="text/javascript" src="https://www.google.com/jsapi"></script>
+<script type="text/javascript">
+   google.load( "visualization", "1", { packages:[ "corechart" ] } );
+   google.setOnLoadCallback
+   (
+    function()
+    {
+      var data = new google.visualization.DataTable();
+      //コラム数といいね数をdataの列に追加する
+      data.addColumn('string', 'コラム数');     
+      data.addColumn('number', 'いいね数');
+      //上で作ったテーブルに対してtitle, likes_countのレコードを追加していく
+      data.addRows
+      ( [
+        <%= for record <- data do %>
+        ['<%= record[ "title" ] %>', <%= record[ "likes_count" ] %> ],
+        <% end %>
+      ] );
+
+      //グラフの見た目設定
+      var options = 
+      {
+        title: 'Qiitaコラム「いいね」数',
+        width: 1000, 
+        height: 600, 
+        chartArea: { width: '30%' }, 
+        legend: { position: "none" }, 
+      };
+      //chartインスタンスがidにlikesが付いているタグの場所に埋め込まれる
+      var chart = new google.visualization.BarChart( document.getElementById( 'likes' ) );
+      //グラフdataとoptionを読み込んでグラフ描画
+      chart.draw( data, options );
+    }
+  );
+</script>
+
+<div class="container text-center">
+  <div id="likes"></div>
+  <table border="1">
+    <tr>
+      <%= for column <- columns do %>
+        <th><%= column %></th>
+      <% end %>
+    </tr>
+
+    <%= for record <- data do %>
+      <tr>
+        <%= for column <- columns do %>
+          <td><%= record[ column ] %></td>
+        <% end %>
+      </tr>
+    <% end %>
+  </table>
+</div>
